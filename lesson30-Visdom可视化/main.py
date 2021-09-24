@@ -45,10 +45,10 @@ class MLP(nn.Module):
 
         return x
 
-device = torch.device('cuda:0')
-net = MLP().to(device)
+# device = torch.device('cuda:0')
+net = MLP()#.to(device)
 optimizer = optim.SGD(net.parameters(), lr=learning_rate)
-criteon = nn.CrossEntropyLoss().to(device)
+criteon = nn.CrossEntropyLoss()#.to(device)
 
 viz = Visdom()
 
@@ -57,11 +57,11 @@ viz.line([[0.0, 0.0]], [0.], win='test', opts=dict(title='test loss&acc.',
                                                    legend=['loss', 'acc.']))
 global_step = 0
 
-for epoch in range(epochs):
+for epoch in range( ):
 
     for batch_idx, (data, target) in enumerate(train_loader):
         data = data.view(-1, 28*28)
-        data, target = data.to(device), target.cuda()
+        # data, target = data.to(device), target.cuda()
 
         logits = net(data)
         loss = criteon(logits, target)
@@ -84,7 +84,7 @@ for epoch in range(epochs):
     correct = 0
     for data, target in test_loader:
         data = data.view(-1, 28 * 28)
-        data, target = data.to(device), target.cuda()
+        # data, target = data.to(device), target.cuda()
         logits = net(data)
         test_loss += criteon(logits, target).item()
 

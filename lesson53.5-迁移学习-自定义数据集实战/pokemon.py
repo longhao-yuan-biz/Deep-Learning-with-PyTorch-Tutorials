@@ -114,12 +114,12 @@ class Pokemon(Dataset):
 
         tf = transforms.Compose([
             lambda x:Image.open(x).convert('RGB'), # string path= > image data
-            transforms.Resize((int(self.resize*1.25), int(self.resize*1.25))),
+            transforms.Resize((int(self.resize*1.25), int(self.resize*1.25))), # augmentation
             transforms.RandomRotation(15),
             transforms.CenterCrop(self.resize),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                 std=[0.229, 0.224, 0.225])
+                                 std=[0.229, 0.224, 0.225]) # make model easier to conv
         ])
 
         img = tf(img)
@@ -140,6 +140,8 @@ def main():
 
     viz = visdom.Visdom()
 
+
+    ## Easy way to create dataloader when data in particular folder format.
     # tf = transforms.Compose([
     #                 transforms.Resize((64,64)),
     #                 transforms.ToTensor(),

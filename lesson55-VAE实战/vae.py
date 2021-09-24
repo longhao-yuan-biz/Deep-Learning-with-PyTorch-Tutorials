@@ -58,10 +58,12 @@ class VAE(nn.Module):
         # reshape
         x_hat = x_hat.view(batchsz, 1, 28, 28)
 
+        # close-form solution for two Gaussian
+        # sigma_2 = 1, mu_2 = 0
         kld = 0.5 * torch.sum(
             torch.pow(mu, 2) +
             torch.pow(sigma, 2) -
             torch.log(1e-8 + torch.pow(sigma, 2)) - 1
-        ) / (batchsz*28*28)
+        ) / (batchsz*28*28) 
 
-        return x_hat, kld
+        return x_hat, kld  

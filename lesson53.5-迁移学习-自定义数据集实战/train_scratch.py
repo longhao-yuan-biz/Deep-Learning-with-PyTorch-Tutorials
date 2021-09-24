@@ -73,13 +73,14 @@ def main():
             global_step += 1
 
         if epoch % 1 == 0:
-
+            
+            # evaluate by validation data
             val_acc = evalute(model, val_loader)
             if val_acc> best_acc:
                 best_epoch = epoch
                 best_acc = val_acc
-
-                torch.save(model.state_dict(), 'best.mdl')
+                # save the best model
+                torch.save(model.state_dict(), 'best.mdl') # suffix is arbitrary
 
                 viz.line([val_acc], [global_step], win='val_acc', update='append')
 

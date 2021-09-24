@@ -51,7 +51,7 @@ class Discriminator(nn.Module):
         return output.view(-1)
 
 def data_generator():
-
+    # eight gaussian mixture models
     scale = 2.
     centers = [
         (1, 0),
@@ -198,13 +198,14 @@ def main():
             # [b]
             predr = (D(xr))
             # max log(lossr)
-            lossr = - (predr.mean())
+            lossr = - (predr.mean()) # real loss
 
             # [b, 2]
             z = torch.randn(batchsz, 2).cuda()
             # stop gradient on G
             # [b, 2]
-            xf = G(z).detach()
+            # .detach() means do not calculate gradient of G(z), because it is only inference
+            xf = G(z).detach()  # fake x
             # [b]
             predf = (D(xf))
             # min predf

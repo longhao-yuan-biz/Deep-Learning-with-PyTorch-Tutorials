@@ -32,6 +32,8 @@ test_loader = torch.utils.data.DataLoader(
     batch_size=batch_size, shuffle=False)
 
 x, y = next(iter(train_loader))
+# x: torch.Size([512, 1, 28, 28]) --> 1 is channel
+# y: torch.Size([512])
 print(x.shape, y.shape, x.min(), x.max())
 plot_image(x, y, 'image sample')
 
@@ -68,7 +70,7 @@ optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
 train_loss = []
 
 for epoch in range(3):
-
+ 
     for batch_idx, (x, y) in enumerate(train_loader):
 
         # x: [b, 1, 28, 28], y: [512]
@@ -81,10 +83,9 @@ for epoch in range(3):
         # loss = mse(out, y_onehot)
         loss = F.mse_loss(out, y_onehot)
 
-        optimizer.zero_grad()
-        loss.backward()
-        # w' = w - lr*grad
-        optimizer.step()
+        optimizer.zero_grad() # clean grad in every iter
+        loss.backward() # get gradient of every params
+        optimizer.step() # w' = w - lr*grad : gradient descent the params
 
         train_loss.append(loss.item())
 

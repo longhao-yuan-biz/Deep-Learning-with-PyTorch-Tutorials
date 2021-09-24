@@ -48,6 +48,7 @@ def main():
 
     # model = ResNet18(5).to(device)
     trained_model = resnet18(pretrained=True)
+    # get params of 1st to 2nd last layers 
     model = nn.Sequential(*list(trained_model.children())[:-1], #[b, 512, 1, 1]
                           Flatten(), # [b, 512, 1, 1] => [b, 512]
                           nn.Linear(512, 5)

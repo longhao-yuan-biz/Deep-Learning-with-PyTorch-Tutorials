@@ -44,7 +44,7 @@ def main():
             loss = criteon(x_hat, x)
 
             if kld is not None:
-                elbo = - loss - 1.0 * kld
+                elbo = - loss - 1.0 * kld # Evidence Lower Bound (ELBO)
                 loss = - elbo
 
             # backprop
