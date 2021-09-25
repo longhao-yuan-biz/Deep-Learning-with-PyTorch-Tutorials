@@ -53,7 +53,7 @@ class Pokemon(Dataset):
                 images += glob.glob(os.path.join(self.root, name, '*.jpeg'))
 
             # 1167, 'pokemon\\bulbasaur\\00000000.png'
-            print(len(images), images)
+            # print(len(images), images)
 
             random.shuffle(images)
             with open(os.path.join(self.root, filename), mode='w', newline='') as f:
@@ -63,7 +63,7 @@ class Pokemon(Dataset):
                     label = self.name2label[name]
                     # 'pokemon\\bulbasaur\\00000000.png', 0
                     writer.writerow([img, label])
-                print('writen into csv file:', filename)
+                # print('writen into csv file:', filename)
 
         # read from csv file
         images, labels = [], []
@@ -157,8 +157,8 @@ def main():
     #
     #     time.sleep(10)
 
-
-    db = Pokemon('pokemon', 64, 'train')
+    root = 'E:\BaiduNetdiskDownload\pokeman'
+    db = Pokemon(root, 64, 'train')
 
     x,y = next(iter(db))
     print('sample:', x.shape, y.shape, y)

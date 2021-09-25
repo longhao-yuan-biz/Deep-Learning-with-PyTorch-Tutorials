@@ -15,18 +15,18 @@ epochs = 10
 
 device = torch.device('cuda')
 torch.manual_seed(1234)
+root = 'E:\BaiduNetdiskDownload\pokeman'
 
-
-train_db = Pokemon('pokemon', 224, mode='train')
-val_db = Pokemon('pokemon', 224, mode='val')
-test_db = Pokemon('pokemon', 224, mode='test')
+train_db = Pokemon(root, 224, mode='train')
+val_db = Pokemon(root, 224, mode='val')
+test_db = Pokemon(root, 224, mode='test')
 train_loader = DataLoader(train_db, batch_size=batchsz, shuffle=True,
                           num_workers=4)
 val_loader = DataLoader(val_db, batch_size=batchsz, num_workers=2)
 test_loader = DataLoader(test_db, batch_size=batchsz, num_workers=2)
 
 
-viz = visdom.Visdom()
+# viz = visdom.Visdom()
 
 def evalute(model, loader):
     model.eval()
@@ -52,8 +52,8 @@ def main():
 
     best_acc, best_epoch = 0, 0
     global_step = 0
-    viz.line([0], [-1], win='loss', opts=dict(title='loss'))
-    viz.line([0], [-1], win='val_acc', opts=dict(title='val_acc'))
+    # viz.line([0], [-1], win='loss', opts=dict(title='loss'))
+    # viz.line([0], [-1], win='val_acc', opts=dict(title='val_acc'))
     for epoch in range(epochs):
 
         for step, (x,y) in enumerate(train_loader):
@@ -69,7 +69,7 @@ def main():
             loss.backward()
             optimizer.step()
 
-            viz.line([loss.item()], [global_step], win='loss', update='append')
+            # viz.line([loss.item()], [global_step], win='loss', update='append')
             global_step += 1
 
         if epoch % 1 == 0:
@@ -82,7 +82,7 @@ def main():
                 # save the best model
                 torch.save(model.state_dict(), 'best.mdl') # suffix is arbitrary
 
-                viz.line([val_acc], [global_step], win='val_acc', update='append')
+                # viz.line([val_acc], [global_step], win='val_acc', update='append')
 
 
     print('best acc:', best_acc, 'best epoch:', best_epoch)
